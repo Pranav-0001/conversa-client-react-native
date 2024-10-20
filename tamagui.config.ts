@@ -2,8 +2,16 @@ import { createAnimations } from '@tamagui/animations-react-native';
 import { createInterFont } from '@tamagui/font-inter';
 import { createMedia } from '@tamagui/react-native-media-driver';
 import { shorthands } from '@tamagui/shorthands';
-import { themes, tokens } from '@tamagui/themes';
-import { createTamagui, styled, SizableText, H1, YStack, Button as ButtonTamagui } from 'tamagui';
+import { tokens } from '@tamagui/themes';
+import {
+  createTamagui,
+  styled,
+  SizableText,
+  H1,
+  YStack,
+  Button as ButtonTamagui,
+  createFont,
+} from 'tamagui';
 
 const animations = createAnimations({
   bouncy: {
@@ -28,6 +36,27 @@ const animations = createAnimations({
 const headingFont = createInterFont();
 
 const bodyFont = createInterFont();
+const Lobster = createFont({
+  family: 'Lobster',
+  size: {
+    1: 12,
+    2: 14,
+    3: 16,
+    4: 18,
+    5: 20,
+    6: 24,
+    7: 28,
+    8: 32,
+    9: 36,
+    10: 40,
+  },
+  weight: {
+    4: '400',
+  },
+  letterSpacing: {
+    4: 0,
+  },
+});
 
 export const Container = styled(YStack, {
   flex: 1,
@@ -77,22 +106,30 @@ export const Button = styled(ButtonTamagui, {
 });
 
 const config = createTamagui({
-  light: {
-    color: {
-      background: 'gray',
-      text: 'black',
-    },
-  },
   defaultFont: 'body',
   animations,
-  shouldAddPrefersColorThemes: true,
-  themeClassNameOnRoot: true,
   shorthands,
   fonts: {
     body: bodyFont,
     heading: headingFont,
+    lobster: Lobster,
   },
-  themes,
+  themes: {
+    dark: {
+      background: '#1E1E1E',
+      color: '#FEFEFE',
+      primary: '#FDBF48',
+      secondary: '#333333',
+      inputbox: 'A3A3A3',
+    },
+    light: {
+      background: '#FFFFFF',
+      color: '#1E1E1E',
+      primary: '#FDBF48',
+      secondary: '#F2F2F2',
+      inputbox: '#7D7D7D ',
+    },
+  },
   tokens,
   media: createMedia({
     xs: { maxWidth: 660 },

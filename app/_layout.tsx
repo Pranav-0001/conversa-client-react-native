@@ -2,14 +2,20 @@ import { useFonts } from 'expo-font';
 import { SplashScreen, Stack } from 'expo-router';
 import { useEffect } from 'react';
 import { TamaguiProvider } from 'tamagui';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import config from '../tamagui.config';
 
 export default function Layout() {
-  const [loaded] = useFonts({
+  const [loaded, error] = useFonts({
     Inter: require('@tamagui/font-inter/otf/Inter-Medium.otf'),
     InterBold: require('@tamagui/font-inter/otf/Inter-Bold.otf'),
+    Lobster: require('../assets/fonts/Lobster-Regular.ttf'),
   });
+
+  useEffect(() => {
+    if (error) throw error;
+  }, [error]);
 
   useEffect(() => {
     if (loaded) {
@@ -17,11 +23,15 @@ export default function Layout() {
     }
   }, [loaded]);
 
-  if (!loaded) return null;
+  if (!loaded) {
+    return null;
+  }
 
   return (
     <TamaguiProvider config={config}>
-      <Stack />
+      <SafeAreaProvider>
+        <Stack />
+      </SafeAreaProvider>
     </TamaguiProvider>
   );
 }
