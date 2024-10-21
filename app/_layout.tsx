@@ -3,8 +3,10 @@ import { SplashScreen, Stack } from 'expo-router';
 import { useEffect } from 'react';
 import { TamaguiProvider } from 'tamagui';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { QueryClientProvider } from '@tanstack/react-query';
 
 import config from '../tamagui.config';
+import queryClient from './(services)/queryClient';
 
 export default function Layout() {
   const [loaded, error] = useFonts({
@@ -30,7 +32,9 @@ export default function Layout() {
   return (
     <TamaguiProvider config={config}>
       <SafeAreaProvider>
-        <Stack />
+        <QueryClientProvider client={queryClient}>
+          <Stack />
+        </QueryClientProvider>
       </SafeAreaProvider>
     </TamaguiProvider>
   );

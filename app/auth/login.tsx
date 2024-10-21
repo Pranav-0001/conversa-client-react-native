@@ -6,16 +6,12 @@ import { useForm } from 'react-hook-form';
 import InputField from '~/components/formFileds/InputField';
 import SubmitButton from '~/components/formFileds/SubmitButton';
 import { Alert } from 'react-native';
-import { yupResolver } from '@hookform/resolvers/yup'; 
+import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
 
-export default function Signup() {
+export default function Login() {
   const theme = useTheme({ name: 'dark' });
-
-  const onSubmit = (data: any) => Alert.alert(JSON.stringify(data));
-  const SignupSchema = Yup.object().shape({
-    firstname: Yup.string().required('First name is required'),
-    lastname: Yup.string().required('Last name is required'),
+  const LoginSchema = Yup.object().shape({
     email: Yup.string().email('Invalid email format').required('Email is required'),
     password: Yup.string()
       .min(6, 'Password must be at least 6 characters long')
@@ -27,8 +23,9 @@ export default function Signup() {
     handleSubmit,
     formState: { errors },
   } = useForm({
-    resolver: yupResolver(SignupSchema),
+    resolver: yupResolver(LoginSchema),
   });
+  const onSubmit = (data: any) => Alert.alert(JSON.stringify(data));
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: theme.background.get() }}>
       <Stack.Screen options={{ headerShown: false }} />
@@ -64,34 +61,8 @@ export default function Signup() {
             height="100%"
             alignItems="center">
             <Text fontFamily={'$lobster'} fontSize="$10" color={theme.primary.get()}>
-              Signup
+              Login
             </Text>
-            <View
-              width="60%"
-              $sm={{ width: '80%' }}
-              $md={{ width: '80%' }}
-              style={{ display: 'flex', justifyContent: 'center' }}>
-              <InputField
-                label="Firstname"
-                name={'firstname'}
-                control={control}
-                placeholder={'Enter your firstname'}
-                error={errors.firstname}
-              />
-            </View>
-            <View
-              width="60%"
-              $sm={{ width: '80%' }}
-              $md={{ width: '80%' }}
-              style={{ display: 'flex', justifyContent: 'center' }}>
-              <InputField
-                label="Lastname"
-                name={'lastname'}
-                control={control}
-                placeholder={'Enter your lastname'}
-                error={errors.lastname}
-              />
-            </View>
             <View
               width="60%"
               $sm={{ width: '80%' }}
@@ -124,13 +95,13 @@ export default function Signup() {
               $sm={{ width: '80%' }}
               $md={{ width: '80%' }}
               style={{ display: 'flex', justifyContent: 'start', margin: 10 }}>
-              <SubmitButton label="Signup" action={handleSubmit(onSubmit)} />
+              <SubmitButton label="Login" action={handleSubmit(onSubmit)} />
             </View>
             <View display="flex">
               <Text color={theme.color.get()}>
-                Already have an account?{' '}
-                <Link style={{ color: theme.primary.get() }} href={'/auth/login'}>
-                  Login
+                Don't have an account?{' '}
+                <Link style={{ color: theme.primary.get() }} href={'/auth/signup'}>
+                  Signup
                 </Link>
               </Text>
             </View>

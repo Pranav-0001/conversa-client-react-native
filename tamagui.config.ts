@@ -120,7 +120,8 @@ const config = createTamagui({
       color: '#FEFEFE',
       primary: '#FDBF48',
       secondary: '#333333',
-      inputbox: 'A3A3A3',
+      inputbox: '#A3A3A3',
+      error: '#D11010',
     },
     light: {
       background: '#FFFFFF',
@@ -128,6 +129,7 @@ const config = createTamagui({
       primary: '#FDBF48',
       secondary: '#F2F2F2',
       inputbox: '#7D7D7D ',
+      error: '#D11010',
     },
   },
   tokens,
