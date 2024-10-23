@@ -1,12 +1,15 @@
+import { QueryClientProvider } from '@tanstack/react-query';
 import { useFonts } from 'expo-font';
 import { SplashScreen, Stack } from 'expo-router';
 import { useEffect } from 'react';
-import { TamaguiProvider } from 'tamagui';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { QueryClientProvider } from '@tanstack/react-query';
-
+import { Provider } from 'react-redux';
+import { TamaguiProvider } from 'tamagui';
 import config from '../tamagui.config';
+import { store } from './(redux)/store';
 import queryClient from './(services)/queryClient';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { loadToken } from './(redux)/authSlice';
 
 export default function Layout() {
   const [loaded, error] = useFonts({
@@ -25,17 +28,34 @@ export default function Layout() {
     }
   }, [loaded]);
 
+  useEffect(() => {
+    const initializeAuth = async () => {
+      try {
+        const currentUser = await AsyncStorage.getItem('currentUser');
+        if (currentUser) {
+          store.dispatch(loadToken(currentUser));
+        }
+      } catch (error) {
+        console.error('Failed to load token from AsyncStorage:', error);
+      }
+    };
+
+    initializeAuth();
+  }, []);
+
   if (!loaded) {
     return null;
   }
 
   return (
-    <TamaguiProvider config={config}>
-      <SafeAreaProvider>
-        <QueryClientProvider client={queryClient}>
-          <Stack />
-        </QueryClientProvider>
-      </SafeAreaProvider>
-    </TamaguiProvider>
+    <Provider store={store}>
+      <TamaguiProvider config={config}>
+        <SafeAreaProvider>
+          <QueryClientProvider client={queryClient}>
+            <Stack />
+          </QueryClientProvider>
+        </SafeAreaProvider>
+      </TamaguiProvider>
+    </Provider>
   );
 }

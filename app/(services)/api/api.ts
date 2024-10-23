@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export const api = axios.create({
-  baseURL: 'https://7x1rcvfz-3000.inc1.devtunnels.ms', // Ensure the baseURL is correct for the environment you're working in
+  baseURL: process.env.EXPO_PUBLIC_API_URL, 
 });
 
 api.interceptors.request.use(

@@ -8,8 +8,12 @@ import SubmitButton from '~/components/formFileds/SubmitButton';
 import { Alert } from 'react-native';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
+import useLoginMutation from '../(services)/api/useLoginMutation';
+import { useDispatch } from 'react-redux';
+import { login } from '../(redux)/authSlice';
 
 export default function Login() {
+  const dispatch = useDispatch();
   const theme = useTheme({ name: 'dark' });
   const LoginSchema = Yup.object().shape({
     email: Yup.string().email('Invalid email format').required('Email is required'),
@@ -25,7 +29,15 @@ export default function Login() {
   } = useForm({
     resolver: yupResolver(LoginSchema),
   });
-  const onSubmit = (data: any) => Alert.alert(JSON.stringify(data));
+  const loginMutation = useLoginMutation({
+    onSuccess: (data) => {
+      console.log('success', data);
+      dispatch(login(data?.data));
+    },
+  });
+  const onSubmit = (data: any) => {
+    loginMutation.mutate(data);
+  };
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: theme.background.get() }}>
       <Stack.Screen options={{ headerShown: false }} />
@@ -97,13 +109,24 @@ export default function Login() {
               style={{ display: 'flex', justifyContent: 'start', margin: 10 }}>
               <SubmitButton label="Login" action={handleSubmit(onSubmit)} />
             </View>
-            <View display="flex">
+            <View
+              display="flex"
+              flexDirection="column"
+              justifyContent="space-between"
+              alignItems="center"
+              style={{ marginTop: 4 }}
+              width="60%"
+              $sm={{ width: '80%' }}
+              $md={{ width: '80%' }}>
               <Text color={theme.color.get()}>
                 Don't have an account?{' '}
                 <Link style={{ color: theme.primary.get() }} href={'/auth/signup'}>
                   Signup
                 </Link>
               </Text>
+              <Link style={{ color: theme.primary.get(), marginTop: 2 }} href={'/'}>
+                Forgot Password?
+              </Link>
             </View>
           </YStack>
         </XStack>

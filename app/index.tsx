@@ -1,5 +1,6 @@
 import { Stack, Link, router } from 'expo-router';
 import { Text, Appearance, useColorScheme } from 'react-native';
+import { useSelector } from 'react-redux';
 import { YStack, useMedia, useTheme, Theme } from 'tamagui';
 import { Button } from '~/components/Button';
 import { Container } from '~/components/Container';
@@ -11,6 +12,8 @@ export default function Home() {
   console.log({ theme: theme.color.get() });
   const colorScheme = useColorScheme();
   console.log({ colorScheme });
+  const auth = useSelector((state:any) => state.auth);
+  console.log({auth})
   return (
     <>
       <Theme name="dark">

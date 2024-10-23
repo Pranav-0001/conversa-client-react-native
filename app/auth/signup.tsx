@@ -14,10 +14,10 @@ export default function Signup() {
 
   const onSubmit = (data: any) => Alert.alert(JSON.stringify(data));
   const SignupSchema = Yup.object().shape({
-    firstname: Yup.string().required('First name is required'),
-    lastname: Yup.string().required('Last name is required'),
+    firstname: Yup.string().trim().required('First name is required'),
+    lastname: Yup.string().trim().required('Last name is required'),
     email: Yup.string().email('Invalid email format').required('Email is required'),
-    password: Yup.string()
+    password: Yup.string().trim()
       .min(6, 'Password must be at least 6 characters long')
       .required('Password is required'),
   });
