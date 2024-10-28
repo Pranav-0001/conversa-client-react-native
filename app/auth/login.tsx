@@ -124,7 +124,7 @@ export default function Login() {
                   Signup
                 </Link>
               </Text>
-              <Link style={{ color: theme.primary.get(), marginTop: 2 }} href={'/'}>
+              <Link style={{ color: theme.primary.get(), marginTop: 2 }} href={'/test'}>
                 Forgot Password?
               </Link>
             </View>

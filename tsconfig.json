@@ -8,5 +8,5 @@
       "~/*": ["*"]
     }
   },
-  "include": ["**/*.ts", "**/*.tsx", ".expo/types/**/*.ts", "expo-env.d.ts", "components/formFileds/InputField.jsx", "app/(services)/queryClient.js"]
+  "include": ["**/*.ts", "**/*.tsx", ".expo/types/**/*.ts", "expo-env.d.ts", "components/formFileds/InputField.jsx", "app/(services)/queryClient.js", "components/chat/ChatList.tsx"]
 }

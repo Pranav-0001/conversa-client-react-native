@@ -10,6 +10,7 @@ import { store } from './(redux)/store';
 import queryClient from './(services)/queryClient';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { loadToken } from './(redux)/authSlice';
+import { Platform } from 'react-native';
 
 export default function Layout() {
   const [loaded, error] = useFonts({
@@ -49,6 +50,19 @@ export default function Layout() {
 
   return (
     <Provider store={store}>
+      {Platform.OS === 'web' && (
+        <style>
+          {`
+            ::-webkit-scrollbar {
+              display: none;
+            }
+            * {
+              scrollbar-width: none;
+              -ms-overflow-style: none;
+            }
+          `}
+        </style>
+      )}
       <TamaguiProvider config={config}>
         <SafeAreaProvider>
           <QueryClientProvider client={queryClient}>
