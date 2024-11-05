@@ -22,6 +22,7 @@ const authSlice = createSlice({
       AsyncStorage.setItem('currentUser', currentUser);
     },
     logout(state) {
+      console.log('Logout');
       state.token = null;
       state.isAuthenticated = false;
       state.user = null;

@@ -2,13 +2,14 @@ import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { Stack, Tabs } from 'expo-router';
 import { useTheme, View } from 'tamagui';
 import Entypo from '@expo/vector-icons/Entypo';
+import FontAwesome from '@expo/vector-icons/FontAwesome';
 
 export default function RootLayout() {
   const theme = useTheme({ name: 'dark' });
   return (
     <>
       <Stack.Screen options={{ headerShown: false }} />
-      <View height={'100%'}>
+
         <Tabs
           screenOptions={{
             tabBarActiveTintColor: theme.primary.get(),
@@ -44,8 +45,15 @@ export default function RootLayout() {
               tabBarIcon: ({ color }) => <Entypo name="add-user" size={24} color={color} />,
             }}
           />
+           <Tabs.Screen
+            name="users"
+            options={{
+              title: 'Users',
+              tabBarIcon: ({ color }) => <FontAwesome name="users" size={24} color={color} />,
+            }}
+          />
         </Tabs>
-      </View>
+    
     </>
   );
 }

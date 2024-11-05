@@ -16,7 +16,7 @@ export default function Home({}) {
         <Container>
           <ScreenContent path="app/index.tsx" title="Home" />
           <Button onPress={() => router.push('/auth/signup')} title="Show Details" />
-          <Link href={{ pathname: '/details', params: { name: 'Dan' }}} asChild>
+          <Link href={{ pathname: '/(app)/user/profile'}} asChild>
             <Button title="Show Details" />
           </Link>
           <YStack y={media.sm ? 10 : 0}>

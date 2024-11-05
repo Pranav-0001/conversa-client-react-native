@@ -7,10 +7,11 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 const chat = () => {
   const theme = useTheme({ name: 'dark' });
+  
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: theme.background.get() }}>
       <Stack.Screen options={{ headerShown: false }} />
-      <View style={{paddingBottom:260}}>
+      <View style={{ flex: 1, }} > 
         <ChatList />
       </View>
     </SafeAreaView>
