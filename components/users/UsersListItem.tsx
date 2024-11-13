@@ -1,9 +1,10 @@
 import { View, Text, TouchableOpacity } from 'react-native';
 import React, { useState } from 'react';
 import { Button, Image, useTheme, XStack } from 'tamagui';
-import Ionicons from '@expo/vector-icons/Ionicons';
-import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons';
 import { router } from 'expo-router';
+import useSendFriendRequestMutation from '~/app/(services)/api/sendFriendRequestMutation';
+import useGetAllUsersQuery from '~/app/(services)/api/useGetAllUsersQuery';
+import useCancelFriendRequestMutation from '~/app/(services)/api/cancelFriendRequestMutation';
 
 const UsersListItem = ({ index, user }: { index: number; user: any }) => {
   const theme = useTheme({ name: 'dark' });
@@ -11,6 +12,97 @@ const UsersListItem = ({ index, user }: { index: number; user: any }) => {
 
   const togglePopover = () => {
     setPopoverVisible(!isPopoverVisible);
+  };
+  const getAllUsersQuery = useGetAllUsersQuery({});
+  const sendFriendRequestMutation = useSendFriendRequestMutation({
+    onSuccess: () => {
+      getAllUsersQuery.refetch();
+    },
+  });
+  const cancelFriendRequestMutation = useCancelFriendRequestMutation({
+    onSuccess: () => {
+      getAllUsersQuery.refetch();
+    },
+  });
+  const RenderButton = (): any => {
+    const theme = useTheme({ name: 'dark' });
+    switch (user?.request?.status) {
+      case 'accepted':
+        return (
+          <Button
+            size={'$2'}
+            backgroundColor={theme.inputbox.get()}
+            key={`unfriend-btn-${index}`}
+            color={'black'}>
+            Unfriend
+          </Button>
+        );
+
+      case 'requested':
+        if (user?.request?.requester === user?._id) {
+          return (
+            <XStack gap={4}>
+              <Button
+                size={'$2'}
+                backgroundColor={theme.primary.get()} // Use a specific color for pending
+                key={`pending-btn-${index}`}
+                color={'black'}
+                onPress={() => {}}>
+                Accept
+              </Button>
+              <Button
+                size={'$2'}
+                backgroundColor={theme.inputbox.get()} // Use a specific color for pending
+                key={`pending-btn-${index}`}
+                color={'black'}
+                onPress={() => {}}>
+                Reject
+              </Button>
+            </XStack>
+          );
+        } else {
+          return (
+            <Button
+              size={'$2'}
+              backgroundColor={theme.inputbox.get()} // Use a specific color for pending
+              key={`pending-btn-${index}`}
+              color={'black'}
+              onPress={() => {
+                cancelFriendRequestMutation.mutate({ userId: user?._id });
+              }}>
+              Cancel request
+            </Button>
+          );
+        }
+      case 'declined':
+        return (
+          <Button
+            size={'$2'}
+            backgroundColor={theme.primary.get()}
+            key={`send-request-${index}`}
+            color={theme.secondary.get()}
+            onPress={(e) => {
+              e.stopPropagation && e.stopPropagation();
+              sendFriendRequestMutation.mutate({ userId: user?._id });
+            }}>
+            Send Request
+          </Button>
+        );
+      default:
+        return (
+          <Button
+            size={'$2'}
+            backgroundColor={theme.primary.get()}
+            key={`send-request-${index}`}
+            color={theme.secondary.get()}
+            onPress={(e) => {
+              e.stopPropagation && e.stopPropagation();
+              sendFriendRequestMutation.mutate({ userId: user?._id });
+            }}>
+            Send Request
+          </Button>
+        );
+    }
   };
 
   return (
@@ -56,23 +148,7 @@ const UsersListItem = ({ index, user }: { index: number; user: any }) => {
           justifyContent: 'center',
           alignItems: 'center',
         }}>
-        {user?.request?.status === 'accepted' ? (
-          <Button
-            size={'$2'}
-            backgroundColor={theme.inputbox.get()}
-            key={`unfriend-btn-${index}`}
-            color={'black'}>
-            Unfriend
-          </Button>
-        ) : (
-          <Button
-            size={'$2'}
-            backgroundColor={theme.primary.get()}
-            key={`send-request-${index}`}
-            color={theme.secondary.get()}>
-            Send Request
-          </Button>
-        )}
+        {RenderButton()}
       </View>
     </XStack>
   );

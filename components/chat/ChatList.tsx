@@ -5,22 +5,23 @@ import { Alert, Platform } from 'react-native';
 import ChatSearch from './ChatSearch';
 import ChatListItem from './ChatListItem';
 import TabsHeader from '../tabs/TabsHeader';
+import useGetChatsQuery from '~/app/(services)/api/useGetChatsQuery';
 
 const ChatList = () => {
   const theme = useTheme();
+  const getChats = useGetChatsQuery({});
+  console.log({ getChats: getChats?.data });
   return (
-    <View paddingHorizontal="$3" maxHeight={Platform.OS==="ios"?"105%":'100%'}>
-      <TabsHeader/>
+    <View paddingHorizontal="$3" maxHeight={Platform.OS === 'ios' ? '105%' : '100%'}>
+      <TabsHeader />
       <XStack paddingVertical="$2">
         <ChatSearch />
       </XStack>
       <ScrollView scrollEnabled>
         <YStack>
-          {Array(50)
-            .fill(2)
-            .map((_, i) => (
-              <ChatListItem index={i} /> // Ensure you add a unique key prop
-            ))}
+          {getChats?.data?.map((chat: any, i: number) => (
+            <ChatListItem index={i} /> // Ensure you add a unique key prop
+          ))}
         </YStack>
       </ScrollView>
     </View>

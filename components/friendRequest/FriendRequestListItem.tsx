@@ -3,10 +3,17 @@ import React from 'react';
 import { Button, Image, useTheme, XStack } from 'tamagui';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons';
+import useAcceptFriendRequestMutation from '~/app/(services)/api/acceptFriendRequestMutation';
+import useGetFriendRequestsQuery from '~/app/(services)/api/getFriendRequestQuery';
 
-const FriendRequestListItem = ({ index }: any) => {
+const FriendRequestListItem = ({ index, request }: any) => {
   const theme = useTheme({ name: 'dark' });
-
+  const getFriendRequests = useGetFriendRequestsQuery({});
+  const acceptFriendRequestMutation = useAcceptFriendRequestMutation({
+    onSuccess: () => {
+      getFriendRequests.refetch();
+    },
+  });
   return (
     <XStack
       marginVertical={2}
@@ -34,10 +41,10 @@ const FriendRequestListItem = ({ index }: any) => {
           <Text
             key={`name-${index}`}
             style={{ fontSize: 18, fontWeight: '600', color: theme.primary.get() }}>
-            Pranav
+            {`${request?.requester?.firstName} ${request?.requester?.lastName}`}
           </Text>
           <Text key={`message-${index}`} style={{ color: theme.inputbox.get() }}>
-            @iam_pranav
+            @{request?.requester?.username}
           </Text>
         </View>
       </XStack>
@@ -48,12 +55,26 @@ const FriendRequestListItem = ({ index }: any) => {
           flexDirection: 'row',
           justifyContent: 'center',
           alignItems: 'center',
-          gap:3
+          gap: 3,
         }}>
-        <Button size={'$2'} backgroundColor={theme.primary.get()} color={"black"} key={`button-1-${index}`}>
+        <Button
+          size={'$2'}
+          backgroundColor={theme.primary.get()}
+          color={'black'}
+          key={`button-1-${index}`}
+          onPress={() => {
+            acceptFriendRequestMutation.mutate({ requestId: request?._id, status: 'accepted' });
+          }}>
           Accept
         </Button>
-        <Button size={'$2'} backgroundColor={theme.inputbox.get()} color={"black"} key={`button-2-${index}`}>
+        <Button
+          size={'$2'}
+          backgroundColor={theme.inputbox.get()}
+          color={'black'}
+          key={`button-2-${index}`}
+          onPress={() => {
+            acceptFriendRequestMutation.mutate({ requestId: request?._id, status: 'declined' });
+          }}>
           Reject
         </Button>
       </View>

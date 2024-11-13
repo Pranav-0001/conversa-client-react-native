@@ -14,30 +14,30 @@ export default function FriendRequestTabs({ selected, setSelected }: any) {
           style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
           <Tabs.List backgroundColor={'red'} width={'100%'} justifyContent="center">
             <Tabs.Tab
-              value="incoming"
+              value="received"
               width={'50%'}
               backgroundColor={
-                selected === 'incoming' ? theme.background.get() : theme.background.get()
+                selected === 'received' ? theme.background.get() : theme.background.get()
               }
-              onPress={() => setSelected('incoming')}>
+              onPress={() => setSelected('received')}>
               <SizableText
                 fontWeight={900}
                 fontSize={16}
-                color={selected === 'incoming' ? theme.primary.get() : theme.inputbox.get()}>
+                color={selected === 'received' ? theme.primary.get() : theme.inputbox.get()}>
                 Requests
               </SizableText>
             </Tabs.Tab>
             <Tabs.Tab
-              value="outgoing"
+              value="sent"
               width={'50%'}
               backgroundColor={
-                selected === 'outgoing' ? theme.background.get() : theme.background.get()
+                selected === 'sent' ? theme.background.get() : theme.background.get()
               }
-              onPress={() => setSelected('outgoing')}>
+              onPress={() => setSelected('sent')}>
               <SizableText
                 fontWeight={900}
                 fontSize={16}
-                color={selected === 'outgoing' ? theme.primary.get() : theme.inputbox.get()}>
+                color={selected === 'sent' ? theme.primary.get() : theme.inputbox.get()}>
                 My requests
               </SizableText>
             </Tabs.Tab>
