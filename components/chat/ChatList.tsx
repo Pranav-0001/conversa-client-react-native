@@ -1,11 +1,10 @@
-import { View, Text, XStack, useTheme, Button, Image, YStack, ScrollView } from 'tamagui';
 import React from 'react';
-import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
-import { Alert, Platform } from 'react-native';
-import ChatSearch from './ChatSearch';
-import ChatListItem from './ChatListItem';
-import TabsHeader from '../tabs/TabsHeader';
+import { Platform } from 'react-native';
+import { ScrollView, View, XStack, YStack, useTheme } from 'tamagui';
 import useGetChatsQuery from '~/app/(services)/api/useGetChatsQuery';
+import TabsHeader from '../tabs/TabsHeader';
+import ChatListItem from './ChatListItem';
+import ChatSearch from './ChatSearch';
 
 const ChatList = () => {
   const theme = useTheme();
@@ -20,7 +19,7 @@ const ChatList = () => {
       <ScrollView scrollEnabled>
         <YStack>
           {getChats?.data?.map((chat: any, i: number) => (
-            <ChatListItem index={i} /> // Ensure you add a unique key prop
+            <ChatListItem index={i} chat={chat} /> // Ensure you add a unique key prop
           ))}
         </YStack>
       </ScrollView>

@@ -67,7 +67,8 @@ const UsersListItem = ({ index, user }: { index: number; user: any }) => {
               backgroundColor={theme.inputbox.get()} // Use a specific color for pending
               key={`pending-btn-${index}`}
               color={'black'}
-              onPress={() => {
+              onPress={(e) => {
+                e.stopPropagation && e.stopPropagation();
                 cancelFriendRequestMutation.mutate({ userId: user?._id });
               }}>
               Cancel request

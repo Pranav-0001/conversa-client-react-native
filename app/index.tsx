@@ -9,6 +9,7 @@ export default function Home({}) {
   const theme = useTheme({ name: 'light' });
   const media = useMedia();
 
+
   return (
     <>
       <Theme name="dark">
@@ -16,7 +17,7 @@ export default function Home({}) {
         <Container>
           <ScreenContent path="app/index.tsx" title="Home" />
           <Button onPress={() => router.push('/auth/signup')} title="Show Details" />
-          <Link href={{ pathname: '/(app)/user/profile'}} asChild>
+          <Link href={{ pathname: '/(app)/user/profile' }} asChild>
             <Button title="Show Details" />
           </Link>
           <YStack y={media.sm ? 10 : 0}>
