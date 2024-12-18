@@ -4,17 +4,17 @@ import { api } from './api';
 /**
  * Query to get messages for a specific chat
  */
-export default function useGetMessagesByChatIdQuery(chatId?: string) {
-  async function getMessages() {
+export default function useGetChatById(chatId?: string) {
+  async function getChatById() {
     const res = await api({
       method: 'get',
-      url: `/api/v1/chats/messages/${chatId}`,
+      url: `/api/v1/chats/chat/${chatId}`,
     });
     return res.data?.data;
   }
   return useQuery({
-    queryKey: ['messages', chatId],
-    queryFn: getMessages,
+    queryKey: ['chat', chatId],
+    queryFn: getChatById,
     enabled: !!chatId,
   });
 }

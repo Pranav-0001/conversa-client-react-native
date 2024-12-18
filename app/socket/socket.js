@@ -1,6 +1,6 @@
 import { io } from "socket.io-client";
 
-const URL = "https://7x1rcvfz-80.inc1.devtunnels.ms/"
+const URL = "http://54.89.240.111/"
 
 export const socket = io(URL, {
   autoConnect: true,

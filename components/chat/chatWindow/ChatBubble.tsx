@@ -33,6 +33,16 @@ interface ChatBubbleProps {
 const ChatBubble = ({ message, sent }: ChatBubbleProps) => {
   const theme = useTheme();
 
+  const formatTime = (dateString?: string) => {
+    if (!dateString) return '';
+    const date = new Date(dateString);
+    return date.toLocaleTimeString('en-US', {
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true
+    });
+  };
+
   return (
     <>
       <XStack
@@ -52,8 +62,18 @@ const ChatBubble = ({ message, sent }: ChatBubbleProps) => {
           margin="$1"
           borderRadius="$4"
           maxWidth={message?.payload?.type === 'system' ? '90%' : '80%'}>
-          {message?.payload?.type !== 'system' && (
-            <Text color={sent ? 'white' : theme.color.get()}>{message?.payload?.text}</Text>
+          {message?.payload?.type === 'text' && (
+            <View>
+              <Text color={sent ? 'white' : theme.color.get()}>{message?.payload?.text}</Text>
+              <Text
+                color={sent ? 'rgba(255,255,255,0.7)' : theme.color.get()}
+                fontSize={10}
+                textAlign="right"
+                marginTop={4}
+              >
+                {formatTime(message?.createdAt)}
+              </Text>
+            </View>
           )}
           {message?.payload?.type === 'system' && (
             <View flex={1} justifyContent="center" alignItems="center" width="100%">
@@ -68,7 +88,7 @@ const ChatBubble = ({ message, sent }: ChatBubbleProps) => {
             </View>
           )}
           {message?.payload?.type === 'image' && (
-            <View padding="$-0.25">
+            <View padding="$-0.25" position="relative">
               <ImageModal
                 imageBackgroundColor={theme.secondary.get()}
                 source={{ uri: message?.payload?.image?.url }}
@@ -76,9 +96,17 @@ const ChatBubble = ({ message, sent }: ChatBubbleProps) => {
                   width: 250,
                   height: 250,
                   resizeMode: 'contain',
-                  
                 }}
               />
+              <Text
+                color={sent ? 'rgba(255,255,255,0.7)' : theme.color.get()}
+                fontSize={10}
+                position="absolute"
+                bottom={4}
+                right={4}
+              >
+                {formatTime(message?.createdAt)}
+              </Text>
             </View>
           )}
         </View>

@@ -1,8 +1,8 @@
 import { Alert } from 'react-native';
-import React from 'react';
 import { Text, XStack, View, useTheme } from 'tamagui';
 import { Image } from 'tamagui';
 import { router } from 'expo-router';
+import React from 'react';
 
 const TabsHeader = () => {
   const theme = useTheme({ name: 'dark' });

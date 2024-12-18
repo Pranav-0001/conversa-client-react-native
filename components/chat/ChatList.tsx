@@ -1,10 +1,10 @@
-import React from 'react';
 import { Platform } from 'react-native';
 import { ScrollView, View, XStack, YStack, useTheme } from 'tamagui';
 import useGetChatsQuery from '~/app/(services)/api/useGetChatsQuery';
 import TabsHeader from '../tabs/TabsHeader';
 import ChatListItem from './ChatListItem';
 import ChatSearch from './ChatSearch';
+import React from 'react';
 
 const ChatList = () => {
   const theme = useTheme();
